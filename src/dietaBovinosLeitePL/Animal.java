@@ -72,7 +72,7 @@ public class Animal {
 
         double energiaLiquida = 0.0266 * NDTAjustado - 0.12;
         
-        this.setExEnergia(energiaTotal / energiaLiquida);
+        this.setExEnergia(energiaTotal);
 		
 	}
 	
@@ -105,6 +105,56 @@ public class Animal {
         double ingestaoProteinaNaoDegradada = proteinaDigerivelNaoDegradada / 0.8;
 
         this.setExProteina((proteinaBacterianaDisponivel + ingestaoProteinaNaoDegradada)/ 1.15);
+		
+	}
+	
+	
+	public void calculaCalcio() {
+
+        double calcioFecal = 3.1 * (this.getPesoCorporal() / 100);
+
+        double calcioUrinario = 0.08 * (this.getPesoCorporal() / 100);
+
+        double calcioPrenhez = 0;
+
+        if(this.getDiasPrenhez() > 190) {
+            calcioPrenhez = 0.02456 * Math.exp((0.05581 - (0.00007 * this.getDiasPrenhez())) *
+                    this.getDiasPrenhez()) - 0.02456 * Math.exp((0.05581 - (0.00007 *
+                    (this.getDiasPrenhez() - 1))) * (this.getDiasPrenhez() - 1));
+        }
+
+        double calcioLactacao = 1.22 * (0.4 * this.getProducaoLeite() + 15 *(this.getProducaoLeite() * 
+        		this.getTeorGorduraLeite()/100));
+
+        double calcioCrescimento = (9.83 * Math.pow(this.getPesoMaturidade(), 0.22) *
+                Math.pow(this.getPesoCorporal(), -0.22)) *
+                (this.getGanhoPeso() / 0.96);
+
+        this.setExCalcio(calcioFecal + calcioUrinario + calcioPrenhez + calcioLactacao + calcioCrescimento);
+	}
+	
+	public void calculaFosforo() {
+		
+        double fosforoFecal = this.getExMateriaSeca();
+
+        double fosforoUrinario = 0.002 * this.getPesoCorporal();
+
+        double fosforoPrenhez = 0;
+
+        if(this.getDiasPrenhez() > 190) {
+            fosforoPrenhez = 0.02743 * Math.exp((0.05527 - (0.000075 * this.getDiasPrenhez())) *
+                    this.getDiasPrenhez()) - 0.02743 * Math.exp((0.05527 - (0.000075 *
+                    (this.getDiasPrenhez() - 1))) * (this.getDiasPrenhez() - 1));
+        }
+
+        double fosforoLactacao = 0.9 * (0.4 * this.getProducaoLeite() + 15 *(this.getProducaoLeite() * 
+        		this.getTeorGorduraLeite()/100));
+
+        double fosforoCrescimento = (1.2 + (4.635 * Math.pow(this.getPesoMaturidade(), 0.22) *
+                Math.pow(this.getPesoCorporal(), -0.22))) *
+                (this.getGanhoPeso() / 0.96);
+
+        this.setExFosforo(fosforoFecal + fosforoUrinario + fosforoPrenhez + fosforoLactacao + fosforoCrescimento);
 		
 	}
 	

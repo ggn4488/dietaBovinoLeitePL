@@ -6,5 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/SSC3.0.1r3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
